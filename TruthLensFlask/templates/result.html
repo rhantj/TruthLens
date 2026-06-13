@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}판별 결과 - TruthLens{% endblock %}
+{% block content %}
+<h2>판별 결과</h2>
+{% if result %}
+    <p>AI 생성 가능성 신뢰 점수: <strong>{{ result.score }}%</strong></p>
+    {% if result.cached %}
+        <span class="badge">빠른 결과 제공 중</span>
+    {% endif %}
+    <h3>상세 분석</h3>
+    <pre>{{ result.detail_json }}</pre>
+{% else %}
+    <p>분석 결과를 찾을 수 없습니다.</p>
+{% endif %}
+<p><a href="{{ url_for('main.index') }}">홈으로</a></p>
+{% endblock %}

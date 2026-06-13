@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}영상 판별 - TruthLens{% endblock %}
+{% block content %}
+<h2>영상 AI 생성 판별</h2>
+<form action="{{ url_for('video.detect_video_api') }}" method="post" enctype="multipart/form-data">
+    <p>
+        <label>영상 파일 업로드 (MP4, AVI, MOV, WEBM / 최대 500MB, 최대 10분)</label><br>
+        <input type="file" name="file" accept=".mp4,.avi,.mov,.webm">
+    </p>
+    <p>또는</p>
+    <p>
+        <label>영상 URL (YouTube, Vimeo, 직접 링크)</label><br>
+        <input type="text" name="url" placeholder="https://...">
+    </p>
+    <button type="submit">분석하기</button>
+</form>
+{% endblock %}

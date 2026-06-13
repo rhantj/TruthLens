@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}논문 판별 - TruthLens{% endblock %}
+{% block content %}
+<h2>논문 AI 생성 판별 및 분석</h2>
+<form action="{{ url_for('paper.detect_paper_api') }}" method="post" enctype="multipart/form-data">
+    <p>
+        <label>PDF 업로드 (최대 50MB, 최대 200페이지)</label><br>
+        <input type="file" name="file" accept=".pdf">
+    </p>
+    <button type="submit">분석하기</button>
+</form>
+{% endblock %}

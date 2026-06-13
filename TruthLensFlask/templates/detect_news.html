@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}뉴스 판별 - TruthLens{% endblock %}
+{% block content %}
+<h2>뉴스 AI 생성 및 가짜뉴스 판별</h2>
+<form action="{{ url_for('news.detect_news_api') }}" method="post">
+    <p>
+        <label>뉴스 URL</label><br>
+        <input type="text" name="url" placeholder="https://...">
+    </p>
+    <p>또는</p>
+    <p>
+        <label>텍스트 직접 입력 (최대 10,000자)</label><br>
+        <textarea name="text" maxlength="10000" rows="10" cols="60"></textarea>
+    </p>
+    <button type="submit">분석하기</button>
+</form>
+{% endblock %}

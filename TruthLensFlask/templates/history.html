@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}판별 이력 - TruthLens{% endblock %}
+{% block content %}
+<h2>판별 이력</h2>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>유형</th>
+            <th>상태</th>
+            <th>요청 시간</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for req in requests %}
+        <tr>
+            <td>{{ req.id }}</td>
+            <td>{{ req.type }}</td>
+            <td>{{ req.status }}</td>
+            <td>{{ req.created_at }}</td>
+            <td><a href="{{ url_for('result.result_page', request_id=req.id) }}">결과 보기</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
