@@ -18,13 +18,25 @@ def get_redis_client():
 
 
 def get_cached_result(content_hash):
-    """콘텐츠 해시에 대한 캐시된 판별 결과를 조회한다 (FR-05)"""
-    return get_redis_client().get(f"result:{content_hash}")
+    """콘텐츠 해시에 대한 캐시된 판별 결과를 조회한다 (FR-05).
+
+    Redis에 연결할 수 없으면 캐시 미스(None)로 처리한다.
+    """
+    try:
+        return get_redis_client().get(f"result:{content_hash}")
+    except redis.RedisError:
+        return None
 
 
 def set_cached_result(content_hash, result_json, ttl=86400):
-    """판별 결과를 캐시에 저장한다. 기본 TTL은 24시간(FR-05)"""
-    get_redis_client().set(f"result:{content_hash}", result_json, ex=ttl)
+    """판별 결과를 캐시에 저장한다. 기본 TTL은 24시간(FR-05).
+
+    Redis에 연결할 수 없으면 캐싱을 조용히 건너뛴다.
+    """
+    try:
+        get_redis_client().set(f"result:{content_hash}", result_json, ex=ttl)
+    except redis.RedisError:
+        pass
 
 
 def increment_request_count(content_hash):
