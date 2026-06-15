@@ -5,3 +5,5 @@ python-dotenv
 gunicorn
 celery
 redis
+opencv-python-headless
+numpy
