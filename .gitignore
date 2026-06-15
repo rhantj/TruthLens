@@ -7,6 +7,9 @@ coverage/
 .env*
 !.env.example
 
+.claude
+.understand-anything
+
 __pycache__/
 *.pyc
 .env
