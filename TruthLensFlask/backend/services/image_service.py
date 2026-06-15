@@ -1,8 +1,11 @@
+import json
+
 from ai_models.image_detector import ImageDetector
 from backend.models.database import db
 from backend.models.detection_request import DetectionRequest
 from backend.models.detection_result import DetectionResult
 from backend.services.content_hash_service import hash_file
+from cache.redis_client import get_cached_result, set_cached_result
 
 
 class ImageService:
@@ -12,19 +15,27 @@ class ImageService:
         self.detector = ImageDetector()
 
     def analyze(self, file_path):
-        """단일 이미지를 분석하고 결과를 DB에 저장한다"""
+        """단일 이미지를 분석하고 결과를 DB에 저장한다 (FR-05: 결과 캐싱)"""
         content_hash = hash_file(file_path)
 
         detection_request = DetectionRequest(content_hash=content_hash, type='image', status='pending')
         db.session.add(detection_request)
         db.session.commit()
 
-        result = self.detector.detect(file_path)
+        cached_json = get_cached_result(content_hash)
+        if cached_json is not None:
+            result = json.loads(cached_json)
+            is_cached = True
+        else:
+            result = self.detector.detect(file_path)
+            set_cached_result(content_hash, json.dumps(result))
+            is_cached = False
 
         db.session.add(DetectionResult(
             request_id=detection_request.id,
             score=result['score'],
             detail_json=result['details'],
+            cached=is_cached,
         ))
         detection_request.status = 'done'
         db.session.commit()
