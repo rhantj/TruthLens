@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html class="light" lang="ko">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>TruthLens - 로그인</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@600;700&amp;family=Inter:wght@400;600&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container": "#edeeef",
+                        "on-secondary-fixed": "#001e2f",
+                        "alert-red": "#EF4444",
+                        "secondary-fixed": "#c9e6ff",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed": "#eee1cc",
+                        "outline-variant": "#c8c5cc",
+                        "on-primary-fixed-variant": "#454650",
+                        "tertiary-fixed-dim": "#d1c5b1",
+                        "outline": "#77767c",
+                        "inverse-on-surface": "#f0f1f2",
+                        "on-tertiary-container": "#908674",
+                        "on-error": "#ffffff",
+                        "surface-bright": "#f8f9fa",
+                        "on-surface": "#191c1d",
+                        "surface-container-low": "#f3f4f5",
+                        "surface-container-high": "#e7e8e9",
+                        "on-tertiary-fixed": "#211b0e",
+                        "error-container": "#ffdad6",
+                        "deep-navy": "#1E1F28",
+                        "inverse-surface": "#2e3132",
+                        "electric-blue": "#0EA5E9",
+                        "on-background": "#191c1d",
+                        "primary": "#06070f",
+                        "on-error-container": "#93000a",
+                        "suspicious-yellow": "#F59E0B",
+                        "surface-dim": "#d9dadb",
+                        "on-primary-fixed": "#1a1b24",
+                        "secondary": "#006591",
+                        "authentic-green": "#10B981",
+                        "on-surface-variant": "#47464b",
+                        "primary-container": "#1e1f28",
+                        "on-secondary-fixed-variant": "#004c6e",
+                        "tertiary-container": "#251f12",
+                        "primary-fixed-dim": "#c6c5d2",
+                        "inverse-primary": "#c6c5d2",
+                        "on-secondary-container": "#004666",
+                        "surface": "#f8f9fa",
+                        "primary-fixed": "#e2e1ee",
+                        "on-primary-container": "#868692",
+                        "on-primary": "#ffffff",
+                        "surface-variant": "#e1e3e4",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed-variant": "#4e4637",
+                        "on-tertiary": "#ffffff",
+                        "background": "#f8f9fa",
+                        "tertiary": "#0b0701",
+                        "surface-container-highest": "#e1e3e4",
+                        "error": "#ba1a1a",
+                        "secondary-fixed-dim": "#89ceff",
+                        "surface-tint": "#5d5d68",
+                        "secondary-container": "#39b8fd"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "section-gap": "40px",
+                        "container-padding-mobile": "16px",
+                        "gutter": "16px",
+                        "container-padding-desktop": "32px",
+                        "base": "4px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Hanken Grotesk"],
+                        "headline-lg-mobile": ["Hanken Grotesk"],
+                        "display-lg": ["Hanken Grotesk"],
+                        "title-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-mono": ["JetBrains Mono"]
+                    }
+                }
+            }
+        };
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .scanning-line {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #0EA5E9, transparent);
+            position: absolute;
+            width: 100%;
+            top: 0;
+            animation: scan 3s linear infinite;
+            box-shadow: 0 0 10px #0EA5E9;
+        }
+        @keyframes scan {
+            0% { top: 0%; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: 100%; opacity: 0; }
+        }
+        .bg-grid {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(226, 232, 240, 0.5) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(226, 232, 240, 0.5) 1px, transparent 1px);
+        }
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body-md text-on-surface overflow-hidden">
+    <!-- Background Subtle Tech Decoration -->
+    <div class="fixed inset-0 bg-grid -z-10 opacity-40"></div>
+    <div class="fixed top-[-10%] right-[-10%] w-[60%] h-[40%] bg-electric-blue/5 blur-[120px] rounded-full -z-10"></div>
+    <div class="fixed bottom-[-10%] left-[-10%] w-[50%] h-[50%] bg-deep-navy/5 blur-[100px] rounded-full -z-10"></div>
+    
+    <!-- Main Container (Mobile Focused) -->
+    <main class="flex flex-col items-center justify-between min-h-screen px-container-padding-mobile py-12 max-w-md mx-auto">
+        <!-- Header: Logo and Identity -->
+        <header class="w-full flex flex-col items-center mt-8 text-center">
+            <div class="relative mb-6">
+                <!-- TruthLens Brand Anchor Structure -->
+                <a href="{{ url_for('main.index') }}" class="flex items-center space-x-2 no-underline">
+                    <span class="material-symbols-outlined text-electric-blue text-4xl" style="font-variation-settings: 'FILL' 1;">visibility</span>
+                    <h1 class="font-headline-lg-mobile text-headline-lg-mobile font-bold tracking-tight text-deep-navy">TruthLens</h1>
+                </a>
+                <!-- Scanning Effect Over Logo Area -->
+                <div class="absolute -inset-4 pointer-events-none">
+                    <div class="scanning-line"></div>
+                </div>
+            </div>
+            <h2 class="font-headline-lg-mobile text-headline-lg-mobile text-deep-navy px-4">
+                진실의 렌즈로 세상을 보세요
+            </h2>
+            <p class="font-body-md text-body-md text-on-surface-variant mt-2 px-6">
+                고도의 AI 분석 기술로 디지털 무결성을 검증하고 허위 정보를 차단합니다.
+            </p>
+        </header>
+        
+        <!-- Illustration/Focus Area -->
+        <div class="w-full relative aspect-square max-h-64 mt-8">
+            <div class="absolute inset-0 rounded-xl overflow-hidden border border-outline-variant/30 bg-white shadow-sm">
+                <img alt="Forensic analysis interface" class="w-full h-full object-cover opacity-90" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxoqhsUb9Yzc56lNetH8l5955ZkLCcC4KsrPo__-3-cRCfH8caYDWm1ri70BfsEQ-OS_cRjJ0kqjjPqYFvIBzW9Y5PAZ0Wci_z2WpX6DO9PWPpxFlNFc0h7eXs4-NTpzqYPuOjga8JFLjFEAtQfUKMI82xwIsjqP-6740kFECejBaWVTX1hBp-tVtYBq4-9m8sCKH1j8I1Wev287vsotMrWkg2c99-pb6RwKWdq2HFm_IbAX8GURhZI8qpINHAjIyOqaP0t7nrag"/>
+            </div>
+            <!-- Forensic Chips Over Image -->
+            <div class="absolute top-4 right-4 flex flex-col gap-2">
+                <span class="bg-authentic-green/10 text-authentic-green font-label-mono text-label-mono px-3 py-1 rounded-full border border-authentic-green/20 backdrop-blur-md">
+                    VERIFIED
+                </span>
+            </div>
+            <div class="absolute bottom-4 left-4">
+                <span class="bg-alert-red/10 text-alert-red font-label-mono text-label-mono px-3 py-1 rounded-full border border-alert-red/20 backdrop-blur-md">
+                    SCANNING...
+                </span>
+            </div>
+        </div>
+        
+        <!-- Login Section -->
+        <section class="w-full flex flex-col gap-4 mt-auto mb-4">
+            <!-- Google Social Login (Prominent) -->
+            <button onclick="handleLogin()" class="w-full h-14 bg-white border border-outline-variant flex items-center justify-center gap-3 rounded-xl shadow-sm active:scale-[0.98] transition-all hover:bg-surface-container-low">
+                <svg height="20" viewbox="0 0 48 48" width="20">
+                    <path d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" fill="#EA4335"></path>
+                    <path d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z" fill="#4285F4"></path>
+                    <path d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24s.92 7.54 2.56 10.78l7.97-6.19z" fill="#FBBC05"></path>
+                    <path d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" fill="#34A853"></path>
+                    <path d="M0 0h48v48H0z" fill="none"></path>
+                </svg>
+                <span class="font-body-md text-body-md font-semibold text-deep-navy">Google로 계속하기</span>
+            </button>
+            
+            <!-- Standard Auth Options -->
+            <div class="flex flex-col gap-3">
+                <button onclick="handleLogin()" class="w-full h-14 bg-deep-navy text-white flex items-center justify-center rounded-xl font-body-md text-body-md font-semibold active:scale-[0.98] transition-all">
+                    이메일로 시작하기
+                </button>
+                <div class="flex items-center justify-center gap-2 mt-2">
+                    <span class="font-body-sm text-body-sm text-on-surface-variant">계정이 없으신가요?</span>
+                    <a class="font-body-sm text-body-sm font-bold text-electric-blue hover:underline" href="#" onclick="alert('회원가입 기능을 준비 중입니다.')">회원가입</a>
+                </div>
+            </div>
+            
+            <!-- Legal/Trust Footer -->
+            <footer class="mt-4 text-center">
+                <p class="font-label-mono text-[10px] text-on-surface-variant/60 leading-relaxed uppercase tracking-wider">
+                    © 2026 TRUTHLENS AI. DIGITAL INTEGRITY GUARANTEED.
+                </p>
+                <div class="flex justify-center gap-4 mt-2">
+                    <a class="font-label-mono text-[10px] text-on-surface-variant/40 hover:text-electric-blue transition-colors" href="#">이용약관</a>
+                    <a class="font-label-mono text-[10px] text-on-surface-variant/40 hover:text-electric-blue transition-colors" href="#">개인정보처리방침</a>
+                </div>
+            </footer>
+        </section>
+    </main>
+    
+    <!-- Micro-interaction Script -->
+    <script>
+        function handleLogin() {
+            alert('로그인에 성공했습니다! 홈 화면으로 이동합니다.');
+            window.location.href = "{{ url_for('main.index') }}";
+        }
+
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('click', function(e) {
+                const ripple = document.createElement('span');
+                ripple.classList.add('ripple');
+                this.appendChild(ripple);
+                
+                const rect = this.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                ripple.style.width = ripple.style.height = `${size}px`;
+                ripple.style.left = `${e.clientX - rect.left - size/2}px`;
+                ripple.style.top = `${e.clientY - rect.top - size/2}px`;
+                
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+
+        // Add a style for the ripple effect manually
+        const style = document.createElement('style');
+        style.innerHTML = `
+            .ripple {
+                position: absolute;
+                background: rgba(14, 165, 233, 0.2);
+                border-radius: 50%;
+                transform: scale(0);
+                animation: ripple 0.6s linear;
+                pointer-events: none;
+            }
+            @keyframes ripple {
+                to { transform: scale(4); opacity: 0; }
+            }
+            button { position: relative; overflow: hidden; }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
