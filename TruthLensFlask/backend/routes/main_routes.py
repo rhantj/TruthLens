@@ -16,3 +16,25 @@ def history():
     """판별 이력: 과거 요청 목록 (최근 20건)"""
     requests = DetectionRequest.query.order_by(DetectionRequest.created_at.desc()).limit(20).all()
     return render_template('history.html', requests=requests)
+
+
+@main_bp.route('/login', methods=['GET'])
+def login():
+    """로그인 / 회원가입 화면"""
+    return render_template('login.html')
+
+
+@main_bp.route('/mypage', methods=['GET'])
+def mypage():
+    """마이페이지 화면: 프로필 및 스캔 통계"""
+    user_info = {
+        "name": "Investigator Pro",
+        "email": "investigator.pro@truthlens.ai",
+        "role": "Enterprise",
+        "trust_score": 99,
+        "scan_count": 142,
+        "accuracy": 99.8,
+        "next_payment_date": "24.12.20"
+    }
+    return render_template('mypage.html', user=user_info)
+
