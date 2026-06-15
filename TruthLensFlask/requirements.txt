@@ -7,3 +7,4 @@ celery
 redis
 opencv-python-headless
 numpy
+piexif
