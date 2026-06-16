@@ -1,7 +1,6 @@
 from datetime import datetime
 
 from flask import Blueprint, flash, redirect, request, session, url_for
-from werkzeug.security import check_password_hash, generate_password_hash
 
 from backend.auth import oauth
 from backend.models.database import db
@@ -48,7 +47,7 @@ def email_login():
         password = request.form.get('password', '')
 
         user = User.query.filter_by(email=email).first()
-        if user is None or user.password_hash is None or not check_password_hash(user.password_hash, password):
+        if user is None or user.password_hash != password:
             flash('이메일 또는 비밀번호가 올바르지 않습니다.')
             return redirect(url_for('main.login'))
 
@@ -83,7 +82,7 @@ def email_signup():
         user = User(
             email=email,
             name=name,
-            password_hash=generate_password_hash(password),
+            password_hash=password,
         )
         db.session.add(user)
         db.session.commit()
