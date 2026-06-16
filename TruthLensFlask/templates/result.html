@@ -17,7 +17,7 @@
     }
     .gauge-fill {
         fill: none;
-        stroke: #F59E0B; /* JS에서 색상을 동적으로 제어할 수 있도록 세팅 */
+        stroke: #F59E0B;
         stroke-width: 24;
         stroke-dasharray: 440;
         stroke-dashoffset: 440;
@@ -75,6 +75,7 @@
         {% set verdict_icon = 'verified' %}
         {% set verdict_chip = 'AUTHENTIC' %}
     {% endif %}
+
     {% set d = result.detail_json or {} %}
 
     <!-- Header & Result Summary -->
@@ -109,7 +110,7 @@
         </div>
     </div>
 
-    <!-- Analysis Details Bento-style -->
+    <!-- Analysis Details -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
         <!-- Findings -->
         <div class="glass-card rounded-xl p-6">
@@ -117,7 +118,7 @@
                 <span class="material-symbols-outlined text-primary">analytics</span>
                 상세 분석 결과
             </h3>
-            
+           
             {% if result.detail_json and result.detail_json.get('summary') %}
             <div class="mb-6 p-4 bg-surface-container-low rounded-lg border-l-4 border-electric-blue">
                 <p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
@@ -125,7 +126,6 @@
                 </p>
             </div>
             {% endif %}
-
             <ul class="space-y-4">
                 <li class="flex gap-3">
                     <span class="material-symbols-outlined text-{{ verdict_color }} text-body-md mt-0.5">info</span>
@@ -172,7 +172,6 @@
                 <img alt="Forensic scan heatmap" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAeqkQukCQXKRJaNR8d9iA--I5Y2l2bNgcYujZXyPR1V9O8gGm5N_zzRxorcPVIp6FDakjY-Z2fZJfpsHDN7TZY-EjxKF4C-RWS5Ff3G_nvPCJ6LY3NbiPpLDr7SnFzkxII8qDOfQsUHZSyhVP3qhrqK9hKt2ij5F4wJ0TeMkQgs_1wXNNSlEnYc-kTKrc6-JvpQLr-y7j5koafSMQliKXwsHitwzt6Kz2yjgdff6CrpYxkqBTXeqYRqxnnzgH6YPgf0fEkKdDXVA"/>
                 {% endif %}
                 <div class="absolute inset-0 bg-{{ verdict_color }}/20 mix-blend-overlay"></div>
-                <!-- Thermal hotspots overlay -->
                 <div class="absolute top-1/4 left-1/3 w-16 h-16 bg-{{ verdict_color }}/40 rounded-full blur-xl animate-pulse"></div>
                 <div class="absolute bottom-1/3 right-1/4 w-24 h-24 bg-suspicious-yellow/30 rounded-full blur-2xl animate-pulse delay-700"></div>
             </div>
@@ -291,7 +290,7 @@
         {% endif %}
     </div>
 
-    <!-- Raw Detail JSON (collapsible) -->
+    <!-- Raw Detail JSON -->
     <details class="glass-card rounded-xl p-6 mb-6">
         <summary class="font-title-md text-title-md text-deep-navy cursor-pointer flex items-center gap-2">
             <span class="material-symbols-outlined text-primary">data_object</span>
@@ -326,7 +325,6 @@
             const percent = {{ result.score | round(1) }};
             const dashArray = 440;
             const offset = dashArray - (dashArray * (Math.min(Math.max(percent, 0), 100) / 100));
-
             setTimeout(() => {
                 gaugePath.style.strokeDashoffset = offset;
             }, 300);
@@ -334,7 +332,6 @@
             const textElement = document.getElementById('percentageText');
             const duration = 1500;
             const startTime = performance.now();
-
             function updateCounter(currentTime) {
                 const elapsed = currentTime - startTime;
                 const progress = Math.min(elapsed / duration, 1);
@@ -347,6 +344,7 @@
             requestAnimationFrame(updateCounter);
         });
     </script>
+
 {% else %}
     <!-- No result yet / Loading or Failed -->
     <div class="flex flex-col items-center justify-center text-center py-20">
