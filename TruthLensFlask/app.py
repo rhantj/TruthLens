@@ -2,6 +2,7 @@ import os
 
 from flask import Flask, redirect, request, session, url_for
 from dotenv import load_dotenv
+from werkzeug.middleware.proxy_fix import ProxyFix
 
 from config import Config
 from backend.models.database import db
@@ -18,6 +19,9 @@ def create_app(config_overrides=None):
         app.config.update(config_overrides)
 
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
+
+    # cloudtype 등 리버스 프록시 뒤에서 https:// URL이 올바르게 생성되도록
+    app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
     db.init_app(app)
 
