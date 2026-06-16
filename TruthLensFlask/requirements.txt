@@ -10,3 +10,4 @@ numpy
 piexif
 Pillow
 google-generativeai
+pypdf
