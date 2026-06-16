@@ -11,7 +11,8 @@ auth_bp = Blueprint('auth', __name__)
 
 @auth_bp.route('/auth/google')
 def google_login():
-    redirect_uri = url_for('auth.google_callback', _external=True)
+    #redirect_uri = url_for('auth.google_callback', _external=True)
+    redirect_uri = "https://port-0-truthlens-mqem67bmc75b7ecd.sel3.cloudtype.app/auth/google/callback"
     return oauth.google.authorize_redirect(redirect_uri)
 
 
