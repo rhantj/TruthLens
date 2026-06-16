@@ -24,17 +24,5 @@ def login():
     return render_template('login.html')
 
 
-@main_bp.route('/mypage', methods=['GET'])
-def mypage():
-    """마이페이지 화면: 프로필 및 스캔 통계"""
-    user_info = {
-        "name": "Investigator Pro",
-        "email": "investigator.pro@truthlens.ai",
-        "role": "Enterprise",
-        "trust_score": 99,
-        "scan_count": 142,
-        "accuracy": 99.8,
-        "next_payment_date": "24.12.20"
-    }
-    return render_template('mypage.html', user=user_info)
+
 

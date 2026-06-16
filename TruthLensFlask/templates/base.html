@@ -171,7 +171,7 @@
         <span class="material-symbols-outlined"{% if active_page == 'detect' %} style="font-variation-settings: 'FILL' 1;"{% endif %}>document_scanner</span>
         <span class="font-label-mono text-label-mono">탐지</span>
     </a>
-    <a href="{{ url_for('main.mypage') }}" class="flex flex-col items-center justify-center transition-all active:scale-90 duration-200 {% if active_page == 'settings' %}bg-secondary-container/20 text-secondary rounded-full px-4 py-1{% else %}text-on-surface-variant hover:text-electric-blue{% endif %}">
+    <a href="{{ url_for('mypage.profile') }}" class="flex flex-col items-center justify-center transition-all active:scale-90 duration-200 {% if active_page == 'settings' %}bg-secondary-container/20 text-secondary rounded-full px-4 py-1{% else %}text-on-surface-variant hover:text-electric-blue{% endif %}">
         <span class="material-symbols-outlined"{% if active_page == 'settings' %} style="font-variation-settings: 'FILL' 1;"{% endif %}>settings</span>
         <span class="font-label-mono text-label-mono">설정</span>
     </a>
