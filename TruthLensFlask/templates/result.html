@@ -81,7 +81,7 @@
     <div class="flex flex-col items-center mb-8 text-center">
         <div class="flex items-center gap-2 px-3 py-1 bg-surface-container-highest rounded-full mb-3">
             <span class="material-symbols-outlined text-electric-blue text-[18px]">verified</span>
-            <span class="font-label-mono text-label-mono text-on-surface-variant">{{ type_labels.get(request.type, request.type) }} 분석 #{{ request.id }}{% if result.cached %} · 캐시 재사용 {% endif %}
+            <span class="font-label-mono text-label-mono text-on-surface-variant">{{ type_labels.get(request.type, request.type) }} 분석 #{{ request.id }}{% if result.cached %} · 캐시 재사용{% endif %}</span>
         </div>
         <h2 class="font-headline-lg-mobile text-headline-lg-mobile text-deep-navy mb-2">분석 완료</h2>
         <p class="font-body-sm text-body-sm text-on-surface-variant max-w-xs">제출된 미디어에 대한 포렌식 스캔이 완료되었습니다. 아래에서 식별된 패턴을 확인하세요.</p>
