@@ -42,6 +42,6 @@ def set_cached_result(content_hash, result_json, ttl=86400):
 def increment_request_count(content_hash):
     """동일 콘텐츠에 대한 요청 수를 증가시키고 현재 값을 반환한다 (FR-05).
 
-    1시간 이내 100회 이상 누적되면 캐시 활성화 트리거로 사용된다.
+    1회 이상 누적되면 캐시 활성화 트리거로 사용된다.
     """
     return get_redis_client().incr(f"count:{content_hash}")
