@@ -1,38 +1,47 @@
 import os
-from flask import Flask
+
+from flask import Flask, redirect, request, session, url_for
+from dotenv import load_dotenv
+
 from config import Config
 from backend.models.database import db
-from dotenv import load_dotenv
+from backend.auth import oauth
+
+_PUBLIC_PREFIXES = ('/login', '/auth/', '/static/')
 
 
 def create_app(config_overrides=None):
-    """애플리케이션 팩토리 함수
-
-    :param config_overrides: 테스트 등에서 설정값을 덮어쓸 때 사용 (예: SQLALCHEMY_DATABASE_URI)
-    """
-    
     load_dotenv()
     app = Flask(__name__)
-
-    # 설정 로드 (config.py 및 .env 활용)
     app.config.from_object(Config)
     if config_overrides:
         app.config.update(config_overrides)
 
-    # 업로드 폴더 보장
     os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
-    # SQLAlchemy 초기화
     db.init_app(app)
 
-    # Blueprint 등록
-    register_blueprints(app)
+    oauth.init_app(app)
+    oauth.register(
+        name='google',
+        client_id=app.config.get('GOOGLE_CLIENT_ID'),
+        client_secret=app.config.get('GOOGLE_CLIENT_SECRET'),
+        server_metadata_url='https://accounts.google.com/.well-known/openid-configuration',
+        client_kwargs={'scope': 'openid email profile'},
+    )
 
+    @app.before_request
+    def require_login():
+        if any(request.path.startswith(p) for p in _PUBLIC_PREFIXES):
+            return
+        if not session.get('user_id'):
+            return redirect(url_for('main.login'))
+
+    register_blueprints(app)
     return app
 
 
 def register_blueprints(app):
-    """도메인별 Blueprint를 앱에 등록한다"""
     from backend.routes.main_routes import main_bp
     from backend.routes.video_routes import video_bp
     from backend.routes.image_routes import image_bp
@@ -40,6 +49,7 @@ def register_blueprints(app):
     from backend.routes.paper_routes import paper_bp
     from backend.routes.result_routes import result_bp
     from backend.routes.mypage_routes import mypage_bp
+    from backend.auth.routes import auth_bp
 
     app.register_blueprint(main_bp)
     app.register_blueprint(video_bp)
@@ -47,7 +57,8 @@ def register_blueprints(app):
     app.register_blueprint(news_bp)
     app.register_blueprint(paper_bp)
     app.register_blueprint(result_bp)
-    
+    app.register_blueprint(mypage_bp)
+    app.register_blueprint(auth_bp)
 
 
 app = create_app()

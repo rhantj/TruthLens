@@ -8,7 +8,8 @@
 CREATE TABLE IF NOT EXISTS users (
     id                  INT             NOT NULL AUTO_INCREMENT,
     email               VARCHAR(255)    NOT NULL,
-    password_hash       VARCHAR(255)    NOT NULL,
+    password_hash       VARCHAR(255)    NULL,
+    google_sub          VARCHAR(100)    NULL                       COMMENT 'Google OAuth 고유 ID',
     name                VARCHAR(100)    NOT NULL,
     role                VARCHAR(30)     NOT NULL DEFAULT 'free'   COMMENT 'free | pro | enterprise | admin',
     trust_score         FLOAT           NOT NULL DEFAULT 0.0      COMMENT '신뢰 점수 (%)',
