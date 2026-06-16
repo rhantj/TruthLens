@@ -6,6 +6,7 @@ from backend.models.detection_request import DetectionRequest
 from backend.models.detection_result import DetectionResult
 from backend.services.content_hash_service import hash_file
 from cache.redis_client import get_cached_result, set_cached_result
+from backend.services.cache_record_service import record_cache_hit, record_cache_miss, record_request
 
 
 class ImageService:
@@ -22,14 +23,18 @@ class ImageService:
         db.session.add(detection_request)
         db.session.commit()
 
+        record_request(content_hash)
+
         cached_json = get_cached_result(content_hash)
         if cached_json is not None:
             result = json.loads(cached_json)
             is_cached = True
+            record_cache_hit(content_hash)
         else:
             result = self.detector.detect(file_path)
             set_cached_result(content_hash, json.dumps(result))
             is_cached = False
+            record_cache_miss(content_hash)
 
         db.session.add(DetectionResult(
             request_id=detection_request.id,

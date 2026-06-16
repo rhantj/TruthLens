@@ -10,3 +10,7 @@ numpy
 piexif
 Pillow
 google-generativeai
+pypdf
+Authlib
+openai
+reportlab

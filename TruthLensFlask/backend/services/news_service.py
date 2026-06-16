@@ -1,8 +1,12 @@
+import json
+
 from ai_models.news_detector import NewsDetector
 from backend.models.database import db
 from backend.models.detection_request import DetectionRequest
 from backend.models.detection_result import DetectionResult
 from backend.services.content_hash_service import hash_text_or_url
+from cache.redis_client import get_cached_result, set_cached_result
+from backend.services.cache_record_service import record_cache_hit, record_cache_miss, record_request
 
 
 class NewsService:
@@ -20,12 +24,24 @@ class NewsService:
         db.session.add(detection_request)
         db.session.commit()
 
-        result = self.detector.detect(content)
+        record_request(content_hash)
+
+        cached_json = get_cached_result(content_hash)
+        if cached_json is not None:
+            result = json.loads(cached_json)
+            is_cached = True
+            record_cache_hit(content_hash)
+        else:
+            result = self.detector.detect(content)
+            set_cached_result(content_hash, json.dumps(result))
+            is_cached = False
+            record_cache_miss(content_hash)
 
         db.session.add(DetectionResult(
             request_id=detection_request.id,
             score=result['score'],
             detail_json=result['details'],
+            cached=is_cached,
         ))
         detection_request.status = 'done'
         db.session.commit()
