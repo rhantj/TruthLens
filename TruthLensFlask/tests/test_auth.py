@@ -95,11 +95,10 @@ def test_email_signup_creates_user_and_redirects(app, client):
 
 def test_email_signup_rejects_duplicate_email(app, client):
     """이미 가입된 이메일로 회원가입 시 오류 메시지와 함께 /login으로 돌아온다"""
-    from werkzeug.security import generate_password_hash
-
+    
     with app.app_context():
         existing = User(email='dup@test.com', name='기존유저',
-                        password_hash=generate_password_hash('pass'))
+                        password_hash='pass')
         db.session.add(existing)
         db.session.commit()
 
@@ -114,11 +113,10 @@ def test_email_signup_rejects_duplicate_email(app, client):
 
 def test_email_login_success_sets_session_and_redirects(app, client):
     """올바른 이메일/비밀번호로 로그인 시 세션에 user_id가 설정되고 메인으로 이동한다"""
-    from werkzeug.security import generate_password_hash
-
+    
     with app.app_context():
         user = User(email='login@test.com', name='로그인유저',
-                    password_hash=generate_password_hash('mypassword'))
+                    password_hash='mypassword')
         db.session.add(user)
         db.session.commit()
         user_id = user.id
@@ -136,11 +134,10 @@ def test_email_login_success_sets_session_and_redirects(app, client):
 
 def test_email_login_wrong_password_redirects_to_login(app, client):
     """잘못된 비밀번호로 로그인 시 /login으로 돌아온다"""
-    from werkzeug.security import generate_password_hash
-
+    
     with app.app_context():
         user = User(email='wrongpw@test.com', name='유저',
-                    password_hash=generate_password_hash('correct'))
+                    password_hash='correct')
         db.session.add(user)
         db.session.commit()
 
