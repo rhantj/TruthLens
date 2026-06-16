@@ -3,7 +3,7 @@ from datetime import datetime
 # main_routes.py의 패키지 경로를 참고하여 User 모델을 임포트합니다.
 from backend.models.mypage import User 
 
-mypage_bp = Blueprint('mypage_api', __name__, url_prefix='/api/mypage')
+mypage_bp = Blueprint('mypage_api', __name__, url_prefix='/api/v1/mypage')
 
 @mypage_bp.route('/profile', methods=['GET'])
 def get_mypage_profile():
