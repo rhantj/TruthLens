@@ -27,8 +27,11 @@ def detect_news_api():
 
     detection_request = NewsService().analyze(url=url, text=text)
 
+    
     return jsonify({
         "status": "success",
-        "data": {"request_id": detection_request.id},
-        "meta": {},
+        "data": {
+            "request_id": detection_request.id
+        },
+        "meta":{}    
     })
