@@ -14,3 +14,4 @@ pypdf
 Authlib
 openai
 reportlab
+google-auth
