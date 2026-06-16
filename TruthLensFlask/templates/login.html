@@ -124,7 +124,7 @@
         }
     </style>
 </head>
-<body class="bg-surface font-body-md text-on-surface overflow-hidden">
+<body class="bg-surface font-body-md text-on-surface overflow-y-auto">
     <!-- Background Subtle Tech Decoration -->
     <div class="fixed inset-0 bg-grid -z-10 opacity-40"></div>
     <div class="fixed top-[-10%] right-[-10%] w-[60%] h-[40%] bg-electric-blue/5 blur-[120px] rounded-full -z-10"></div>
@@ -176,7 +176,7 @@
             <!-- Google Social Login (Prominent & GIS Integrated) -->
             <div class="w-full flex flex-col items-center justify-center">
                 <!-- Custom mockup button (Shown when client ID is not configured yet for preview) -->
-                <button id="custom-google-btn" onclick="handleGoogleLogin()" class="w-full h-14 bg-white border border-outline-variant flex items-center justify-center gap-3 rounded-xl shadow-sm active:scale-[0.98] transition-all hover:bg-surface-container-low">
+                <a id="custom-google-btn" href="/auth/google" class="w-full h-14 bg-white border border-outline-variant flex items-center justify-center gap-3 rounded-xl shadow-sm active:scale-[0.98] transition-all hover:bg-surface-container-low">
                     <svg height="20" viewbox="0 0 48 48" width="20">
                         <path d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" fill="#EA4335"></path>
                         <path d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z" fill="#4285F4"></path>
@@ -185,7 +185,7 @@
                         <path d="M0 0h48v48H0z" fill="none"></path>
                     </svg>
                     <span class="font-body-md text-body-md font-semibold text-deep-navy">Google로 계속하기</span>
-                </button>
+                </a>
                 
                 <!-- Official Google GIS Button Container (Will be populated and shown when Client ID is present) -->
                 <div id="official-google-btn" class="w-full flex justify-center hidden"></div>
