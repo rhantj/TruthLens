@@ -170,7 +170,7 @@ class ImageDetector(BaseDetector):
         else:
             verdict = "사람이 제작한 이미지일 가능성이 높습니다"
 
-        exif_note = "EXIF 없음 (AI 의심)" if exif_data.get("suspicious") else "EXIF 정상"
+        exif_note = "EXIF 정보가 없어 촬영 장비·편집 이력 확인은 제한됩니다." if exif_data.get("suspicious") else "EXIF 정상"
 
         return (
             f"{verdict} | "

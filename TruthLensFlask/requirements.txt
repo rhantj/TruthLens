@@ -16,3 +16,4 @@ openai
 reportlab
 beautifulsoup4
 lxml
+google-auth
