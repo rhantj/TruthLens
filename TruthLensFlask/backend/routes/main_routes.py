@@ -16,3 +16,13 @@ def history():
     """판별 이력: 과거 요청 목록 (최근 20건)"""
     requests = DetectionRequest.query.order_by(DetectionRequest.created_at.desc()).limit(20).all()
     return render_template('history.html', requests=requests)
+
+
+@main_bp.route('/login', methods=['GET'])
+def login():
+    """로그인 / 회원가입 화면"""
+    return render_template('login.html')
+
+
+
+

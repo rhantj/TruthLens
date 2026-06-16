@@ -8,6 +8,7 @@ load_dotenv()
 class Config:
     """애플리케이션 환경 설정 클래스"""
     SECRET_KEY = os.getenv('SECRET_KEY', 'default-secret-key')
+    GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
     # 데이터베이스 설정 (MariaDB)
     DB_HOST = os.getenv('DB_HOST', 'localhost')
@@ -35,3 +36,7 @@ class Config:
     MAX_CONTENT_LENGTH = int(os.getenv('MAX_CONTENT_LENGTH', 500 * 1024 * 1024))
 
     DEBUG = os.getenv('FLASK_ENV') == 'development'
+
+    # Google OAuth 설정
+    GOOGLE_CLIENT_ID = os.getenv('GOOGLE_CLIENT_ID')
+    GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET')
