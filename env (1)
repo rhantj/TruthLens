@@ -1,0 +1,19 @@
+FLASK_APP=app.py
+FLASK_ENV=development
+SECRET_KEY=dev-secret-key-159487
+
+# MariaDB
+DB_HOST=svc.sel3.cloudtype.app
+DB_NAME=truthlens
+DB_USER=root
+DB_PASSWORD=159263
+DB_PORT=31988
+
+# Redis (FR-05 캐싱)
+REDIS_HOST=svc.sel3.cloudtype.app
+REDIS_PORT=30541
+REDIS_DB=0
+
+# 업로드 (영상 최대 500MB)
+UPLOAD_FOLDER=uploads
+MAX_CONTENT_LENGTH=524288000
