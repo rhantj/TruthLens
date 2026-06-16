@@ -81,7 +81,7 @@
     <div class="flex flex-col items-center mb-8 text-center">
         <div class="flex items-center gap-2 px-3 py-1 bg-surface-container-highest rounded-full mb-3">
             <span class="material-symbols-outlined text-electric-blue text-[18px]">verified</span>
-            <span class="font-label-mono text-label-mono text-on-surface-variant">{{ type_labels.get(request.type, request.type) }} 분석 #{{ request.id }}{% if result.cached %} · 빠른 결과 제공 중{% endif %}</span>
+            <span class="font-label-mono text-label-mono text-on-surface-variant">{{ type_labels.get(request.type, request.type) }} 분석 #{{ request.id }}{% if result.cached %} · 캐시 재사용 {% endif %}
         </div>
         <h2 class="font-headline-lg-mobile text-headline-lg-mobile text-deep-navy mb-2">분석 완료</h2>
         <p class="font-body-sm text-body-sm text-on-surface-variant max-w-xs">제출된 미디어에 대한 포렌식 스캔이 완료되었습니다. 아래에서 식별된 패턴을 확인하세요.</p>
@@ -231,10 +231,29 @@
                     <p class="font-title-md text-title-md text-deep-navy">{{ d.get('source_trust') if d.get('source_trust') is not none else '정보 없음' }}</p>
                 </div>
             </div>
-            <div class="flex items-center gap-2 mb-4">
-                <span class="font-label-mono text-label-mono text-on-surface-variant uppercase">감성 편향</span>
-                <span class="px-3 py-1 bg-secondary-container/10 text-secondary rounded-full font-label-mono text-label-mono">{{ d.get('sentiment_bias', '중립') }}</span>
-            </div>
+            <div class="space-y-4">
+                
+                <div>
+                    <p class="font-label-mono text-label-mono text-on-surface-variant uppercase">
+                        논리성
+                    </p>
+                    
+                    <p class="text-on-surface">
+                        {{ d.get('logic','분석 결과 없음') }}
+                    </p>
+                </div>
+
+                <div>
+                    <p class="font-label-mono text-label-mono text-on-surface-variant uppercase">
+                        과장 표현
+                    </p>
+
+                    <p class="text-on-surface">
+                        {{ d.get('exaggeration','없음') }}
+                    </p>
+                </div>
+
+            </div>            
             <span class="font-label-mono text-label-mono text-on-surface-variant uppercase mb-2 block">의심 문장</span>
             {% if d.get('suspicious_sentences') %}
             <ul class="space-y-2">
