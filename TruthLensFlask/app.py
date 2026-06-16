@@ -36,15 +36,14 @@ def register_blueprints(app):
     from backend.routes.news_routes import news_bp
     from backend.routes.paper_routes import paper_bp
     from backend.routes.result_routes import result_bp
-    from backend.routes.mypage_routes import mypage_bp
-    
+
     app.register_blueprint(main_bp)
     app.register_blueprint(video_bp)
     app.register_blueprint(image_bp)
     app.register_blueprint(news_bp)
     app.register_blueprint(paper_bp)
     app.register_blueprint(result_bp)
-    app.register_blueprint(mypage_bp)
+
 
 app = create_app()
 
