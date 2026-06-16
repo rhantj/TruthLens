@@ -43,7 +43,7 @@ def register_blueprints(app):
     app.register_blueprint(news_bp)
     app.register_blueprint(paper_bp)
     app.register_blueprint(result_bp)
-    app.register_blueprint(mypage_bp)
+    
 
 
 app = create_app()

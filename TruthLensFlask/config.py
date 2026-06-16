@@ -8,6 +8,7 @@ load_dotenv()
 class Config:
     """애플리케이션 환경 설정 클래스"""
     SECRET_KEY = os.getenv('SECRET_KEY', 'default-secret-key')
+    GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
     # 데이터베이스 설정 (MariaDB)
     DB_HOST = os.getenv('DB_HOST', 'localhost')
