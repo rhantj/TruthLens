@@ -43,45 +43,60 @@ def google_callback():
 
 @auth_bp.route('/auth/email/login', methods=['POST'])
 def email_login():
-    email = request.form.get('email', '').strip()
-    password = request.form.get('password', '')
+    try:
+        email = request.form.get('email', '').strip()
+        password = request.form.get('password', '')
 
-    user = User.query.filter_by(email=email).first()
-    if user is None or user.password_hash is None or not check_password_hash(user.password_hash, password):
-        flash('이메일 또는 비밀번호가 올바르지 않습니다.')
+        user = User.query.filter_by(email=email).first()
+        if user is None or user.password_hash is None or not check_password_hash(user.password_hash, password):
+            flash('이메일 또는 비밀번호가 올바르지 않습니다.')
+            return redirect(url_for('main.login'))
+
+        user.last_login_at = datetime.utcnow()
+        db.session.commit()
+
+        session['user_id'] = user.id
+        return redirect(url_for('main.index'))
+
+    except Exception as e:
+        import logging
+        logging.exception('email_login 오류')
+        flash('로그인 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.')
         return redirect(url_for('main.login'))
-
-    user.last_login_at = datetime.utcnow()
-    db.session.commit()
-
-    session['user_id'] = user.id
-    return redirect(url_for('main.index'))
 
 
 @auth_bp.route('/auth/email/signup', methods=['POST'])
 def email_signup():
-    email = request.form.get('email', '').strip()
-    password = request.form.get('password', '')
-    name = request.form.get('name', '').strip()
+    try:
+        email = request.form.get('email', '').strip()
+        password = request.form.get('password', '')
+        name = request.form.get('name', '').strip()
 
-    if not email or not password or not name:
-        flash('모든 항목을 입력해주세요.')
+        if not email or not password or not name:
+            flash('모든 항목을 입력해주세요.')
+            return redirect(url_for('main.login'))
+
+        if User.query.filter_by(email=email).first():
+            flash('이미 사용 중인 이메일입니다.')
+            return redirect(url_for('main.login'))
+
+        user = User(
+            email=email,
+            name=name,
+            password_hash=generate_password_hash(password),
+        )
+        db.session.add(user)
+        db.session.commit()
+
+        session['user_id'] = user.id
+        return redirect(url_for('main.index'))
+
+    except Exception as e:
+        import logging
+        logging.exception('email_signup 오류')
+        db.session.rollback()
+        flash('회원가입 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.')
         return redirect(url_for('main.login'))
-
-    if User.query.filter_by(email=email).first():
-        flash('이미 사용 중인 이메일입니다.')
-        return redirect(url_for('main.login'))
-
-    user = User(
-        email=email,
-        name=name,
-        password_hash=generate_password_hash(password),
-    )
-    db.session.add(user)
-    db.session.commit()
-
-    session['user_id'] = user.id
-    return redirect(url_for('main.index'))
 
 
 @auth_bp.route('/auth/logout')
