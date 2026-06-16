@@ -2,6 +2,7 @@ import os
 from flask import Flask
 from config import Config
 from backend.models.database import db
+from dotenv import load_dotenv
 
 
 def create_app(config_overrides=None):
@@ -9,6 +10,8 @@ def create_app(config_overrides=None):
 
     :param config_overrides: 테스트 등에서 설정값을 덮어쓸 때 사용 (예: SQLALCHEMY_DATABASE_URI)
     """
+    
+    load_dotenv()
     app = Flask(__name__)
 
     # 설정 로드 (config.py 및 .env 활용)

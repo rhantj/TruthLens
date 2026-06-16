@@ -1,9 +1,13 @@
+# 제목 : 논문 AI 생성 판별 및 분석
+# 담당자 : 허영주 
+
 from ai_models.paper_detector import PaperDetector
 from backend.models.database import db
 from backend.models.detection_request import DetectionRequest
 from backend.models.detection_result import DetectionResult
 from backend.services.citation_service import CitationService
 from backend.services.content_hash_service import hash_file
+from backend.models.paper_citation import PaperCitation
 
 
 class PaperService:
@@ -29,7 +33,18 @@ class PaperService:
             detail_json=result['details'],
         ))
 
+                
+        citations = result["details"].get("citations", [])
         self.citation_service.analyze_citations(detection_request.id, file_path)
+        
+        for citation in citations:
+            db.session.add(PaperCitation(
+                request_id=detection_request.id,
+                citation_ref=citation.get("citation_ref"),
+                status=citation.get("status", "detected"),
+                doi=citation.get("doi"),
+                title=citation.get("title"),
+            ))
 
         detection_request.status = 'done'
         db.session.commit()
