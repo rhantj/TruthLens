@@ -14,11 +14,10 @@ def index():
 
 @main_bp.route('/history', methods=['GET'])
 def history():
-    # 로그인 여부 확인
+    """판별 이력: 로그인한 유저의 요청 목록 (최근 20건)"""
     if 'user_id' not in session:
-        return redirect(url_for('login'))
+        return redirect(url_for('main.login'))
 
-    """판별 이력: 과거 요청 목록 (최근 20건)"""
     requests = DetectionRequest.query.filter_by(user_id=session['user_id']).order_by(DetectionRequest.created_at.desc()).limit(20).all()
     return render_template('history.html', requests=requests)
 
