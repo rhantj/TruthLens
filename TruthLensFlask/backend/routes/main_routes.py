@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template
+from flask import session, redirect, url_for
 
 from backend.models.detection_request import DetectionRequest
 
@@ -13,10 +14,13 @@ def index():
 
 @main_bp.route('/history', methods=['GET'])
 def history():
-    """판별 이력: 과거 요청 목록 (최근 20건)"""
-    requests = DetectionRequest.query.order_by(DetectionRequest.created_at.desc()).limit(20).all()
-    return render_template('history.html', requests=requests)
+    # 로그인 여부 확인
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
 
+    """판별 이력: 과거 요청 목록 (최근 20건)"""
+    requests = DetectionRequest.query.filter_by(user_id=session['user_id']).order_by(DetectionRequest.created_at.desc()).limit(20).all()
+    return render_template('history.html', requests=requests)
 
 @main_bp.route('/login', methods=['GET'])
 def login():

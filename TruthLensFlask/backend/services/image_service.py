@@ -2,6 +2,7 @@ import json
 import time
 from datetime import datetime
 from zoneinfo import ZoneInfo
+from flask import session
 
 from ai_models.image_detector import ImageDetector
 from backend.models.database import db
@@ -28,8 +29,13 @@ class ImageService:
 
         content_hash = hash_file(file_path)
 
+        # 2. 세션에서 현재 로그인한 유저의 ID를 꺼내옴
+        # 로그인하지 않은 유저가 접근할 경우를 대비해 기본값(None 또는 시스템ID) 설정 가능
+        user_id = session.get('user_id')
+        
         # DB에 요청 기록
         detection_request = DetectionRequest(
+            user_id=user_id, # 3. 세션에서 가져온 user_id 저장
             content_hash=content_hash,
             type='image',
             status='pending'

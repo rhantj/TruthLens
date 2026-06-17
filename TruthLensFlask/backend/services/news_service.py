@@ -1,5 +1,6 @@
 import json
 from datetime import datetime, timedelta
+from flask import session
 
 from ai_models.news_detector import NewsDetector
 from backend.models.database import db
@@ -18,7 +19,8 @@ class NewsService:
         self.detector = NewsDetector()
 
     def analyze(self, url=None, text=None):
-
+        user_id = session.get('user_id')
+        
         # 1. 본문 확보
         if url:
             try:
@@ -57,6 +59,7 @@ class NewsService:
 
         # 5. 새 요청 생성
         detection_request = DetectionRequest(
+            user_id=user_id,
             content_hash=content_hash,
             type="news",
             status="pending"
