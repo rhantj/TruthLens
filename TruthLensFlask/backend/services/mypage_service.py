@@ -1,3 +1,5 @@
+from types import SimpleNamespace
+
 from backend.models.database import db
 from sqlalchemy import func
 from flask import session
@@ -43,13 +45,15 @@ class MypageService:
         # AI 모델의 출력 스코어가 0~1 범위면 100을 곱해주고, 0~100 범위면 그대로 사용합니다.
         accuracy_rate = round(float(avg_score) * 100, 1) if avg_score <= 1.0 else round(float(avg_score), 1)
 
-        # 6. ERD의 users 테이블 스키마에 정의된 컬럼(scan_count, accuracy)에 연산 결과 대입
-        user.scan_count = total_scans
-        user.accuracy = accuracy_rate
-        
-        # 가공 필요한 데이터 처리
-        user.plan_name = "Pro Plan" if user.role.lower() == 'pro' else "Enterprise Plan"
-        user.next_payment_date = user.next_payment_date.strftime('%y.%m.%d') if user.next_payment_date else "N/A"
-    
-        # 데이터가 업데이트된 user 객체 최종 반환
-        return user
+        # 6. 화면 표시용 값은 ORM user 객체를 변형하지 않고 별도 객체로 묶어서 반환
+        # (user에 직접 대입하면 이후 flush/commit 시 계산값이 DB에 그대로 저장되어 데이터가 오염됨)
+        return SimpleNamespace(
+            name=user.name,
+            email=user.email,
+            role_badge=user.role.upper(),
+            trust_score=int(user.trust_score) if user.trust_score else 0,
+            scan_count=total_scans,
+            accuracy=accuracy_rate,
+            plan_name="Pro Plan" if user.role.lower() == 'pro' else "Enterprise Plan",
+            next_payment_date=user.next_payment_date.strftime('%y.%m.%d') if user.next_payment_date else "N/A",
+        )
