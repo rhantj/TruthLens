@@ -90,3 +90,34 @@ API 키, DB 접속 정보 등 민감 정보는 코드에 포함하지 않고 클
 | Redis | 7.x | 클라우드타입 기본 제공 버전 |
 | 클러스터 리전 | Seoul | 국내 사용자 응답 속도 최소화 |
 | Dockerfile | 제공(선택) | 커스텀 빌드 환경이 필요한 경우 사용 |
+
+## 6. 역할 분담
+
+| 팀원 | 담당 기능 | 프론트엔드 | 백엔드 | 브랜치 |
+| --- | --- | --- | --- | --- |
+| 임현수 | 로그인 / 회원가입 | 로그인, 회원가입, 공통 레이아웃 | 인증, 세션, 사용자 관리 | `feature/auth` |
+| 곽진아 | 메인 + 마이페이지 + 이력조회 | 메인 화면, 마이페이지, 분석 이력 조회, URL/텍스트 입력, 결과 화면 | 사용자 이력 조회, 분석 결과 목록, 뉴스 분석, 팩트체크 API | `feature/main-mypage-history` |
+| 박상준 | 영상 AI 판별 (FR-01) | 영상 업로드, 결과 화면 | 영상 분석 API, 결과 저장 | `feature/video-ai` |
+| 박지수 | 이미지 AI 판별 (FR-02) + PPT 제작 | 이미지 업로드, 히트맵 결과 화면 | 이미지 분석 API, EXIF 분석 | `feature/image-ai` |
+| 허영주 | 논문 AI 판별 (FR-04) | PDF 업로드, 분석 결과 화면 | PDF 처리, 논문 분석, 요약 기능 | `feature/paper-ai` |
+| 고무서 | 파일 구조 관리 + 전체 UI 통괄 + 캐싱 (FR-05) | 공통 UI/UX 관리, 디자인 통합 | 프로젝트 구조 설계, Redis 캐싱, 공통 모듈 관리 | `feature/core-ui-cache` |
+| 이은주 | 뉴스 가짜 판별 (FR-03) | 뉴스 URL 업로드, 결과 화면 | URL 분석 처리, 요약 기능 | `feature/test-support` |
+
+## 7. 프로젝트 폴더 구조
+
+```
+project/
+├─ ai_models/          # AI 모델 관련 코드
+├─ backend/            # 주요 백엔드 기능 모듈
+├─ cache/              # 임시 저장/캐시 파일
+├─ static/             # CSS, JS, 이미지 같은 정적 파일
+├─ tasks/              # 비동기 작업, 배치 작업
+├─ templates/          # HTML 템플릿
+├─ tests/              # 테스트 코드
+├─ uploads/            # 사용자가 업로드한 파일 저장
+├─ .env.example        # 환경변수 예시
+├─ app.py              # Flask 앱 실행 진입점
+├─ celery_worker.py    # Celery 비동기 작업 실행 파일
+├─ config.py           # 설정 파일
+└─ requirements.txt    # 설치할 라이브러리 목록
+```
