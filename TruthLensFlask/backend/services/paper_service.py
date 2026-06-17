@@ -3,6 +3,7 @@
 
 import json
 
+from flask import session
 from ai_models.paper_detector import PaperDetector
 from backend.models.database import db
 from backend.models.detection_request import DetectionRequest
@@ -24,8 +25,9 @@ class PaperService:
     def analyze(self, file_path):
         """PDF 논문(최대 50MB, 200페이지)에 대해 AI 판별, 자동 요약, 인용 분석을 수행한다"""
         content_hash = hash_file(file_path)
-
-        detection_request = DetectionRequest(content_hash=content_hash, type='paper', status='pending')
+        user_id = session.get('user_id')
+        
+        detection_request = DetectionRequest(user_id=user_id, content_hash=content_hash, type='paper', status='pending')
         db.session.add(detection_request)
         db.session.commit()
 

@@ -1,6 +1,7 @@
 import json
 
 from ai_models.video_detector import VideoDetector
+from flask import session
 from backend.models.database import db
 from backend.models.detection_request import DetectionRequest
 from backend.models.detection_result import DetectionResult
@@ -24,8 +25,9 @@ class VideoService:
         :return: 생성된 DetectionRequest 인스턴스
         """
         content_hash = hash_file(file_path) if file_path else hash_text_or_url(url)
-
-        detection_request = DetectionRequest(content_hash=content_hash, type='video', status='pending')
+        user_id = session.get('user_id')
+        
+        detection_request = DetectionRequest(user_id=user_id, content_hash=content_hash, type='video', status='pending')
         db.session.add(detection_request)
         db.session.commit()
 
